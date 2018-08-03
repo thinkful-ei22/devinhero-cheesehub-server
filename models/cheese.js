@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const cheeseSchema = new mongoose.Schema({
-  name: {type: String, required: true}
+  name: {type: String, required: true, unique: true}
 });
 
 cheeseSchema.set('timestamps', true);
