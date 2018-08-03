@@ -31,6 +31,25 @@ app.use(
 //Mount routers
 app.use('/api/cheeses', cheeseRouter);
 
+
+//Custom 404 not found route
+app.use((req, res, next) =>{
+  const err = new Error('Not found');
+  err.status = 404;
+  next(err);
+});
+
+//Custom Error Handler
+app.use((err, req, res, next) =>{
+  if(err.status){
+    const errBody = Object.assign({}, err, {message: err.message});
+    res.status(err.status).json(errBody);
+  }else{
+    console.error(err);
+    res.status(500).json({message: 'Internal Server Error'});
+  }
+});
+
 function runServer(port = PORT) {
   const server = app
     .listen(port, () => {
